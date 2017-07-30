@@ -1,27 +1,22 @@
-﻿#region using
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-#endregion
+﻿using System.Collections.Generic;
 
 namespace PGSG.Grammar
 {
   public class NonTerminal : BnfTerm
   {
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public NonTerminal(Grammar grammar, string name) : base(grammar, name)
     {
       Productions = new List<Production>();
     }
 
-    // Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public List<Production> Productions
-    {
-      get;
-      set;
-    }
+    public List<Production> Productions { get; set; }
   }
 }
