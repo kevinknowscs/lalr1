@@ -1,15 +1,12 @@
-﻿#region using
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-#endregion
+﻿using System;
 
 namespace ToyParserGenerator.Grammar
 {
   public class LR0Item
   {
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public LR0Item(Grammar grammar, Production aProduction, int aDotIndex)
     {
@@ -18,43 +15,23 @@ namespace ToyParserGenerator.Grammar
       DotIndex = aDotIndex;
     }
 
-    // Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Production Production
-    {
-      get;
-      set;
-    }
+    public Production Production { get; }
 
-    public Grammar Grammar
-    {
-      get;
-      set;
-    }
+    public Grammar Grammar { get; }
 
-    public int DotIndex
-    {
-      get;
-      set;
-    }
+    public int DotIndex { get; }
 
-    public BnfTerm PrevTerm
-    {
-      get
-      {
-        return (DotIndex == 0) ? null : Production.BnfTerms[DotIndex - 1];
-      }
-    }
+    public BnfTerm PrevTerm => (DotIndex == 0) ? null : Production.BnfTerms[DotIndex - 1];
 
-    public BnfTerm NextTerm
-    {
-      get
-      {
-        return (DotIndex > Production.BnfTerms.Count - 1) ? null : Production.BnfTerms[DotIndex];
-      }
-    }
+    public BnfTerm NextTerm => (DotIndex > Production.BnfTerms.Count - 1) ? null : Production.BnfTerms[DotIndex];
 
-    // Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public LR0Item GetNextLR0Item()
     {
@@ -82,11 +59,11 @@ namespace ToyParserGenerator.Grammar
 
     public void Print()
     {
-      Console.Write("{0} -> ", Production.LValue.Name);
+      Console.Write($"{Production.LValue.Name} -> ");
 
       int index = 0;
 
-      foreach (BnfTerm term in Production.BnfTerms)
+      foreach (var term in Production.BnfTerms)
       {
         if (index == DotIndex)
           Console.Write(". ");
@@ -98,7 +75,9 @@ namespace ToyParserGenerator.Grammar
       Console.WriteLine();
     }
 
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Operator Overloads
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public static bool operator ==(LR0Item lhs, LR0Item rhs)
     {
@@ -110,7 +89,9 @@ namespace ToyParserGenerator.Grammar
       return !IsEqual(lhs, rhs);
     }
 
-    // Static Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Private Static Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     private static bool IsEqual(LR0Item lhs, LR0Item rhs)
     {

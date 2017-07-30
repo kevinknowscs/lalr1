@@ -55,8 +55,9 @@ namespace ToyParserGenerator.Grammar
     {
       var result = new LR0ItemSetCollection();
 
-      LR0Item rootItem = new LR0Item(this, this.AugmentedProduction, 0);
+      var rootItem = new LR0Item(this, this.AugmentedProduction, 0);
       var rootItemClosure = rootItem.GetClosure();
+
       result.Add(rootItemClosure);
 
       // Keep track of what we need to do, and what productions we've already added
@@ -69,17 +70,18 @@ namespace ToyParserGenerator.Grammar
         var current = toSearch.Dequeue();
 
         // Compute the goto set for each grammar symbol
-        foreach (BnfTerm bnfTerm in AllSymbols)
+        foreach (var bnfTerm in AllSymbols)
         {
           var gotoSet = current.GetGotoSet(bnfTerm);
-          if (gotoSet.Count != 0 && !result.Contains(gotoSet))
-          {
-            // Add this set to the result collection
-            result.Add(gotoSet);
 
-            // Now we have to search this set for more goto sets to add
-            toSearch.Enqueue(gotoSet);
-          }
+          if (gotoSet.Count == 0 || result.Contains(gotoSet))
+            continue;
+
+          // Add this set to the result collection
+          result.Add(gotoSet);
+
+          // Now we have to search this set for more goto sets to add
+          toSearch.Enqueue(gotoSet);
         }
       }
 
@@ -109,7 +111,7 @@ namespace ToyParserGenerator.Grammar
 
     public void ClearFirstAndFollow()
     {
-      foreach (BnfTerm bnfTerm in AllSymbols)
+      foreach (var bnfTerm in AllSymbols)
       {
         bnfTerm.First.Clear();
         bnfTerm.Follow.Clear();
@@ -118,7 +120,7 @@ namespace ToyParserGenerator.Grammar
 
     public void AddFirstSets(NonTerminal nonTerminal, HashSet<Production> searchStack)
     {
-      foreach (Production prod in Productions)
+      foreach (var prod in Productions)
       {
         if (prod.LValue != nonTerminal)
           continue; // Not the one we're looking for
@@ -126,10 +128,10 @@ namespace ToyParserGenerator.Grammar
         if (searchStack.Contains(prod))
           continue; // Skip this one to avoid infinite loops
 
-        foreach (BnfTerm bnfTerm in prod.BnfTerms)
+        foreach (var bnfTerm in prod.BnfTerms)
         {
-          Terminal terminal = bnfTerm as Terminal;
-          NonTerminal searchNonTerm = bnfTerm as NonTerminal;
+          var terminal = bnfTerm as Terminal;
+          var searchNonTerm = bnfTerm as NonTerminal;
 
           if (terminal != null)
           {
@@ -155,7 +157,7 @@ namespace ToyParserGenerator.Grammar
 
     public void AddFollowSets(NonTerminal nonTerminal, HashSet<Production> searchStack)
     {
-      foreach (Production prod in Productions)
+      foreach (var prod in Productions)
       {
         if (prod.LValue != nonTerminal)
           continue; // Not the one we're looking for
@@ -163,19 +165,19 @@ namespace ToyParserGenerator.Grammar
         if (searchStack.Contains(prod))
           continue; // Skip this one to avoid infinite loops
 
-        HashSet<Terminal> accumulatedFirstSet = new HashSet<Terminal>();
+        var accumulatedFirstSet = new HashSet<Terminal>();
 
         // Iterate backwards through the BNF terms collection
         for (int x = prod.BnfTerms.Count - 1; x >= 0; x--)
         {
-          BnfTerm bnfTerm = prod.BnfTerms[x];
+          var bnfTerm = prod.BnfTerms[x];
 
           // All of the non-empty items of the accumulated first
           // set get added to the follow set of the current symbol
           bnfTerm.Follow.UnionWith(accumulatedFirstSet.Where(t => !t.IsEmpty));
 
-          Terminal terminal = bnfTerm as Terminal;
-          NonTerminal searchNonTerm = bnfTerm as NonTerminal;
+          var terminal = bnfTerm as Terminal;
+          var searchNonTerm = bnfTerm as NonTerminal;
 
           if (terminal != null)
           {
@@ -188,7 +190,7 @@ namespace ToyParserGenerator.Grammar
             AddFollowSets(searchNonTerm, searchStack);
             searchStack.Remove(prod);
 
-            if (searchNonTerm.First.Contains(Empty))
+            if (searchNonTerm != null && searchNonTerm.First.Contains(Empty))
               accumulatedFirstSet.UnionWith(searchNonTerm.First);
             else
               accumulatedFirstSet.Clear();
@@ -198,13 +200,16 @@ namespace ToyParserGenerator.Grammar
         // Iterate backwards through the BNF terms collection (again)
         for (int x = prod.BnfTerms.Count - 1; x >= 0; x--)
         {
-          BnfTerm bnfTerm = prod.BnfTerms[x];
+          var bnfTerm = prod.BnfTerms[x];
 
-          Terminal terminal = bnfTerm as Terminal;
-          NonTerminal searchNonTerm = bnfTerm as NonTerminal;
+          var terminal = bnfTerm as Terminal;
+          var searchNonTerm = bnfTerm as NonTerminal;
 
           if (terminal != null)
             break;
+
+          if (searchNonTerm == null)
+            continue;
 
           searchNonTerm.Follow.UnionWith(nonTerminal.Follow);
 

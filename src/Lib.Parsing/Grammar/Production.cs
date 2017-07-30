@@ -23,11 +23,7 @@ namespace ToyParserGenerator.Grammar
 
     // Properties
 
-    public Grammar Grammar
-    {
-      get;
-      set;
-    }
+    public Grammar Grammar { get; }
 
     public NonTerminal LValue
     {
@@ -53,7 +49,7 @@ namespace ToyParserGenerator.Grammar
 
     public override int GetHashCode()
     {
-      return Grammar.GetHashCode() + LValue.GetHashCode();
+      return LValue.GetHashCode();
     }
 
     public override bool Equals(object obj)
@@ -83,22 +79,13 @@ namespace ToyParserGenerator.Grammar
       if (Object.ReferenceEquals(lhs, null) || Object.ReferenceEquals(rhs, null))
         return false;
 
-      if (lhs.Grammar != rhs.Grammar)
-        return false;
-
       if (lhs.LValue != rhs.LValue)
         return false;
 
       if (lhs.BnfTerms.Count != rhs.BnfTerms.Count)
         return false;
 
-      for (int x = 0; x < lhs.BnfTerms.Count; x++)
-      {
-        if (lhs.BnfTerms[x] != rhs.BnfTerms[x])
-          return false;
-      }
-
-      return true;
+      return !lhs.BnfTerms.Where((t, x) => t != rhs.BnfTerms[x]).Any();
     }
   }
 }
