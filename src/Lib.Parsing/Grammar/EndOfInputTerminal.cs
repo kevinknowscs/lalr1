@@ -1,5 +1,4 @@
-﻿
-namespace ToyParserGenerator.Grammar
+﻿namespace ToyParserGenerator.Grammar
 {
   public class EndOfInputTerminal : Terminal
   {
