@@ -1,0 +1,13 @@
+*.suo
+*.user
+[Dd]ebug/
+[Rr]elease/
+[Bb]bin/
+[Oo]bj/
+[Ll]og/
+
+.vs/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*

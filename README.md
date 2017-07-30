@@ -28,7 +28,8 @@ other options. There are other options, usually in the form of an open source pr
 sometimes tend to get abandoned, and at some later point in time, someone might fork it or pick up them
 maintenance of it. Anyone wanting to do that sort of thing would need to understand the LALR(1) construction
 process. My goal is to create the world's best resource for learning the intricacies of LALR(1) parser
-construction.
+construction, for people who do not necessarily have a PhD in computer science or do not have the benefit
+of attending Stanford University to listen in on Jeffrey Ullman's lectures.
 
 And finally, I have some ideas for advanced projects that would require a specialized packaging of LALR(1)
 parsing and the associated LR(1) parser itself. These include:
