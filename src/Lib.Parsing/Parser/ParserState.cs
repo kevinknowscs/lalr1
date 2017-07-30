@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ToyParserGenerator.Grammar;
 
-using PGSG.Grammar;
 #endregion
 
-namespace PGSG.Parser
+namespace ToyParserGenerator.Parser
 {
   public class ParserState
   {

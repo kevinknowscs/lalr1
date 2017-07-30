@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 #endregion
 
-namespace PGSG.Grammar
+namespace ToyParserGenerator.Grammar
 {
   public class LR0ItemSetCollection : HashSet<LR0ItemSet>
   {

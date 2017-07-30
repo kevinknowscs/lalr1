@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using PGSG.Grammar;
+using ToyParserGenerator.Grammar;
 #endregion
 
-namespace PGSG.Parser
+namespace ToyParserGenerator.Parser
 {
   public class ParserGoto
   {

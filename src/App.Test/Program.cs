@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using PGSG.Grammar;
-using PGSG.Samples;
+using ToyParserGenerator.Grammar;
+using ToyParserGenerator.Samples;
 
 
 namespace App.Test

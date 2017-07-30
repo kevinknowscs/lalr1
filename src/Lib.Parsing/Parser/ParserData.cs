@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ToyParserGenerator.Grammar;
 
-using PGSG.Grammar;
 #endregion
 
-namespace PGSG.Parser
+namespace ToyParserGenerator.Parser
 {
   public class ParserData
   {
     // Constructors
 
-    public ParserData(PGSG.Grammar.Grammar grammar)
+    public ParserData(Grammar.Grammar grammar)
     {
       Grammar = grammar;
       StateTable = new HashSet<ParserState>();
@@ -21,7 +21,7 @@ namespace PGSG.Parser
 
     // Properties
 
-    public PGSG.Grammar.Grammar Grammar
+    public Grammar.Grammar Grammar
     {
       get;
       private set;

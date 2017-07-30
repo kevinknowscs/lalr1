@@ -6,9 +6,9 @@ using System.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PGSG.Grammar;
-using PGSG.Parser;
-using PGSG.Samples;
+using ToyParserGenerator.Grammar;
+using ToyParserGenerator.Parser;
+using ToyParserGenerator.Samples;
 #endregion
 
 namespace UnitTests.Parsing

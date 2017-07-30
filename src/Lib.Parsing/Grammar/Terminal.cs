@@ -1,5 +1,5 @@
 ﻿
-namespace PGSG.Grammar
+namespace ToyParserGenerator.Grammar
 {
   public class Terminal : BnfTerm
   {

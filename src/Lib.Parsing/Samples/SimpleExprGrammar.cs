@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PGSG.Grammar;
+using ToyParserGenerator.Grammar;
+
 #endregion
 
-namespace PGSG.Samples
+namespace ToyParserGenerator.Samples
 {
-  public class SimpleExprGrammar : PGSG.Grammar.Grammar
+  public class SimpleExprGrammar : Grammar.Grammar
   {
     // Definitions
 

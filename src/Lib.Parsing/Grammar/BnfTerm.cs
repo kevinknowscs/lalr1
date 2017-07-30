@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PGSG.Grammar
+namespace ToyParserGenerator.Grammar
 {
   public abstract class BnfTerm
   {
