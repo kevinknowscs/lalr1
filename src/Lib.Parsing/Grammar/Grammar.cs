@@ -1,15 +1,13 @@
-﻿#region using
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-#endregion
 
 namespace ToyParserGenerator.Grammar
 {
   public class Grammar
   {
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Contructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public Grammar()
     {
@@ -21,57 +19,37 @@ namespace ToyParserGenerator.Grammar
       Terminals.Add(Empty);
     }
 
-    // Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Production AugmentedProduction
-    {
-      get;
-      set;
-    }
+    public Production AugmentedProduction { get; set; }
 
-    public List<Production> Productions
-    {
-      get;
-      set;
-    }
+    public List<Production> Productions { get; set; }
 
-    public List<Terminal> Terminals
-    {
-      get;
-      set;
-    }
+    public List<Terminal> Terminals { get; set; }
 
-    public List<NonTerminal> NonTerminals
-    {
-      get;
-      set;
-    }
+    public List<NonTerminal> NonTerminals { get; set; }
 
     public IEnumerable<BnfTerm> AllSymbols
     {
       get
       {
-        foreach (NonTerminal nt in NonTerminals)
+        foreach (var nt in NonTerminals)
           yield return nt;
 
-        foreach (Terminal t in Terminals)
+        foreach (var t in Terminals)
           yield return t;
       }
     }
 
-    public EmptyTerminal Empty
-    {
-      get;
-      private set;
-    }
+    public EmptyTerminal Empty { get; }
 
-    public EndOfInputTerminal EndOfInput
-    {
-      get;
-      private set;
-    }
+    public EndOfInputTerminal EndOfInput { get; }
 
-    // Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public LR0ItemSetCollection GetCanonicalCollection()
     {

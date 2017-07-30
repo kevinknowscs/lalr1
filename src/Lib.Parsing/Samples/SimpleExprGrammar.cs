@@ -11,9 +11,10 @@ namespace ToyParserGenerator.Samples
 {
   public class SimpleExprGrammar : Grammar.Grammar
   {
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Definitions
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    private readonly NonTerminal _eprime = null;
     private readonly NonTerminal _e = null;
     private readonly NonTerminal _t = null;
     private readonly NonTerminal _f = null;
@@ -24,11 +25,13 @@ namespace ToyParserGenerator.Samples
     private readonly Terminal _RPAREN = null;
     private readonly Terminal _ID = null;
 
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public SimpleExprGrammar()
     {
-      _eprime = new NonTerminal(this, "eprime");
+      eprime = new NonTerminal(this, "eprime");
       _e = new NonTerminal(this, "e");
       _t = new NonTerminal(this, "t");
       _f = new NonTerminal(this, "f");
@@ -60,78 +63,26 @@ namespace ToyParserGenerator.Samples
       this.AugmentedProduction = root;
     }
 
-    // Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public NonTerminal eprime
-    {
-      get
-      {
-        return _eprime;
-      }
-    }
+    public NonTerminal eprime { get; } = null;
 
-    public NonTerminal e
-    {
-      get
-      {
-        return _e;
-      }
-    }
+    public NonTerminal e => _e;
 
-    public NonTerminal t
-    {
-      get
-      {
-        return _t;
-      }
-    }
+    public NonTerminal t => _t;
 
-    public NonTerminal f
-    {
-      get
-      {
-        return _f;
-      }
-    }
+    public NonTerminal f => _f;
 
-    public Terminal PLUS
-    {
-      get
-      {
-        return _PLUS;
-      }
-    }
+    public Terminal PLUS => _PLUS;
 
-    public Terminal STAR
-    {
-      get
-      {
-        return _STAR;
-      }
-    }
+    public Terminal STAR => _STAR;
 
-    public Terminal LPAREN
-    {
-      get
-      {
-        return _LPAREN;
-      }
-    }
+    public Terminal LPAREN => _LPAREN;
 
-    public Terminal RPAREN
-    {
-      get
-      {
-        return _RPAREN;
-      }
-    }
+    public Terminal RPAREN => _RPAREN;
 
-    public Terminal ID
-    {
-      get
-      {
-        return _ID;
-      }
-    }
+    public Terminal ID => _ID;
   }
 }
