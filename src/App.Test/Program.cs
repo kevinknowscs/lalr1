@@ -1,25 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using ToyParserGenerator.Grammar;
 using ToyParserGenerator.Samples;
-
 
 namespace App.Test
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] args)
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Application Entry Point
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void Main(string[] args)
     {
       Console.WriteLine("Creating grammar ...");
-      SimpleExprGrammar grammar = new SimpleExprGrammar();
+
+      // Pick which grammar to use for testing
+      // var grammar = new SimpleExprGrammar();
+      var grammar = new NonSLRGrammar();
+
       Console.WriteLine("Grammar created.");
 
       var cc = grammar.GetCanonicalCollection();
 
-      Console.WriteLine("Canonical LR0ItemSet count = {0}", cc.Count);
+      Console.WriteLine($"Canonical LR0ItemSet count = {cc.Count}");
       Console.WriteLine();
 
       cc.Print();

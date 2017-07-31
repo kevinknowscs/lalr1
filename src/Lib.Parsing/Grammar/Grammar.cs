@@ -168,7 +168,7 @@ namespace ToyParserGenerator.Grammar
         var accumulatedFirstSet = new HashSet<Terminal>();
 
         // Iterate backwards through the BNF terms collection
-        for (int x = prod.BnfTerms.Count - 1; x >= 0; x--)
+        for (var x = prod.BnfTerms.Count - 1; x >= 0; x--)
         {
           var bnfTerm = prod.BnfTerms[x];
 
@@ -198,7 +198,7 @@ namespace ToyParserGenerator.Grammar
         }
 
         // Iterate backwards through the BNF terms collection (again)
-        for (int x = prod.BnfTerms.Count - 1; x >= 0; x--)
+        for (var x = prod.BnfTerms.Count - 1; x >= 0; x--)
         {
           var bnfTerm = prod.BnfTerms[x];
 
