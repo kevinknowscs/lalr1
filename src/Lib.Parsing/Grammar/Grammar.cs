@@ -20,16 +20,24 @@ namespace ToyParserGenerator.Grammar
     }
 
     // ////////////////////////////////////////////////////////////////////////////////////////////
-    // Public Properties
+    // Public Properties (Simple)
     // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public Production AugmentedProduction { get; set; }
+
+    public EmptyTerminal Empty { get; }
+
+    public EndOfInputTerminal EndOfInput { get; }
+
+    public List<NonTerminal> NonTerminals { get; set; }
 
     public List<Production> Productions { get; set; }
 
     public List<Terminal> Terminals { get; set; }
 
-    public List<NonTerminal> NonTerminals { get; set; }
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties (Derived)
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public IEnumerable<BnfTerm> AllSymbols
     {
@@ -43,82 +51,11 @@ namespace ToyParserGenerator.Grammar
       }
     }
 
-    public EmptyTerminal Empty { get; }
-
-    public EndOfInputTerminal EndOfInput { get; }
-
     // ////////////////////////////////////////////////////////////////////////////////////////////
-    // Public Methods
+    // Private Methods
     // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public LR0ItemSetCollection GetCanonicalCollection()
-    {
-      var result = new LR0ItemSetCollection();
-
-      var rootItem = new LR0Item(this, this.AugmentedProduction, 0);
-      var rootItemClosure = rootItem.GetClosure();
-
-      result.Add(rootItemClosure);
-
-      // Keep track of what we need to do, and what productions we've already added
-      var toSearch = new Queue<LR0ItemSet>();
-      toSearch.Enqueue(rootItemClosure);
-
-      // Add new item sets until there is nothing left to search
-      while (toSearch.Count > 0)
-      {
-        var current = toSearch.Dequeue();
-
-        // Compute the goto set for each grammar symbol
-        foreach (var bnfTerm in AllSymbols)
-        {
-          var gotoSet = current.GetGotoSet(bnfTerm);
-
-          if (gotoSet.Count == 0 || result.Contains(gotoSet))
-            continue;
-
-          // Add this set to the result collection
-          result.Add(gotoSet);
-
-          // Now we have to search this set for more goto sets to add
-          toSearch.Enqueue(gotoSet);
-        }
-      }
-
-      return result;
-    }
-
-    public void BuildFirstAndFollowSets()
-    {
-      ClearFirstAndFollow();
-      BuildFirstSets();
-      BuildFollowSets();
-    }
-
-    public void BuildFirstSets()
-    {
-      var searchStack = new HashSet<Production>();
-      AddFirstSets(AugmentedProduction.LValue, searchStack);
-    }
-
-    public void BuildFollowSets()
-    {
-      AugmentedProduction.LValue.Follow.Add(EndOfInput);
-
-      var searchStack = new HashSet<Production>();
-      AddFollowSets(AugmentedProduction.LValue, searchStack);
-    }
-
-    public void ClearFirstAndFollow()
-    {
-      foreach (var bnfTerm in AllSymbols)
-      {
-        bnfTerm.First.Clear();
-        bnfTerm.Follow.Clear();
-      }
-    }
-
-    public void AddFirstSets(NonTerminal nonTerminal, HashSet<Production> searchStack)
+    private void AddFirstSets(NonTerminal nonTerminal, HashSet<Production> searchStack)
     {
       foreach (var prod in Productions)
       {
@@ -155,7 +92,7 @@ namespace ToyParserGenerator.Grammar
       }
     }
 
-    public void AddFollowSets(NonTerminal nonTerminal, HashSet<Production> searchStack)
+    private void AddFollowSets(NonTerminal nonTerminal, HashSet<Production> searchStack)
     {
       foreach (var prod in Productions)
       {
@@ -217,6 +154,77 @@ namespace ToyParserGenerator.Grammar
             break;
         }
       }
+    }
+
+    private void BuildFirstSets()
+    {
+      var searchStack = new HashSet<Production>();
+      AddFirstSets(AugmentedProduction.LValue, searchStack);
+    }
+
+    private void BuildFollowSets()
+    {
+      AugmentedProduction.LValue.Follow.Add(EndOfInput);
+
+      var searchStack = new HashSet<Production>();
+      AddFollowSets(AugmentedProduction.LValue, searchStack);
+    }
+
+    private void ClearFirstAndFollow()
+    {
+      foreach (var bnfTerm in AllSymbols)
+      {
+        bnfTerm.First.Clear();
+        bnfTerm.Follow.Clear();
+      }
+    }
+
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void BuildFirstAndFollowSets()
+    {
+      ClearFirstAndFollow();
+      BuildFirstSets();
+      BuildFollowSets();
+    }
+
+    public LR0ItemSetCollection GetCanonicalCollection()
+    {
+      var result = new LR0ItemSetCollection();
+
+      var rootItem = new LR0Item(this, this.AugmentedProduction, 0);
+      var rootItemClosure = rootItem.GetClosure();
+
+      result.Add(rootItemClosure);
+
+      // Keep track of what we need to do, and what productions we've already added
+      var toSearch = new Queue<LR0ItemSet>();
+      toSearch.Enqueue(rootItemClosure);
+
+      // Add new item sets until there is nothing left to search
+      while (toSearch.Count > 0)
+      {
+        var current = toSearch.Dequeue();
+
+        // Compute the goto set for each grammar symbol
+        foreach (var bnfTerm in AllSymbols)
+        {
+          var gotoSet = current.GetGotoSet(bnfTerm);
+
+          if (gotoSet.Count == 0 || result.Contains(gotoSet))
+            continue;
+
+          // Add this set to the result collection
+          result.Add(gotoSet);
+
+          // Now we have to search this set for more goto sets to add
+          toSearch.Enqueue(gotoSet);
+        }
+      }
+
+      return result;
     }
   }
 }

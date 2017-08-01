@@ -19,23 +19,23 @@ namespace ToyParserGenerator.Grammar
     // Public Properties
     // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Production Production { get; }
+    public int DotIndex { get; }
 
     public Grammar Grammar { get; }
 
-    public int DotIndex { get; }
+    public BnfTerm NextTerm => (DotIndex > Production.BnfTerms.Count - 1) ? null : Production.BnfTerms[DotIndex];
 
     public BnfTerm PrevTerm => (DotIndex == 0) ? null : Production.BnfTerms[DotIndex - 1];
 
-    public BnfTerm NextTerm => (DotIndex > Production.BnfTerms.Count - 1) ? null : Production.BnfTerms[DotIndex];
+    public Production Production { get; }
 
     // ////////////////////////////////////////////////////////////////////////////////////////////
     // Public Methods
     // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public LR0Item GetNextLR0Item()
+    public override bool Equals(object obj)
     {
-      return new LR0Item(Grammar, Production, DotIndex + 1);
+      return IsEqual(this, obj as LR0Item);
     }
 
     public LR0ItemSet GetClosure()
@@ -52,9 +52,9 @@ namespace ToyParserGenerator.Grammar
       return Production.GetHashCode() << 8 + DotIndex;
     }
 
-    public override bool Equals(object obj)
+    public LR0Item GetNextLR0Item()
     {
-      return IsEqual(this, obj as LR0Item);
+      return new LR0Item(Grammar, Production, DotIndex + 1);
     }
 
     public void Print()
@@ -71,6 +71,9 @@ namespace ToyParserGenerator.Grammar
         Console.Write(term.Name + " ");
         index++;
       }
+
+      if (index == DotIndex)
+        Console.Write(". ");
 
       Console.WriteLine();
     }
