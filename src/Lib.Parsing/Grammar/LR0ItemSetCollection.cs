@@ -1,41 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ToyParserGenerator.Grammar
 {
   public class LR0ItemSetCollection : HashSet<LR0ItemSet>
   {
-    // Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public override int GetHashCode()
+    public LR0ItemSetCollection()
     {
-      int hashCode = 0;
-
-      foreach (LR0ItemSet itemSet in this)
-        hashCode += itemSet.GetHashCode();
-
-      return hashCode;
     }
+
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public override bool Equals(object obj)
     {
       return IsEqual(this, obj as LR0ItemSetCollection);
     }
 
+    public override int GetHashCode()
+    {
+      return this.Aggregate(0, (current, itemSet) => current ^ itemSet.GetHashCode());
+    }
+
     public void Print()
     {
       int index = 0;
 
-      foreach (LR0ItemSet itemSet in this)
+      foreach (var itemSet in this)
       {
-        Console.WriteLine("I{0}", index);
+        Console.WriteLine($"I{index}");
         itemSet.Print();
 
         index++;
       }
     }
 
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Operator Overloads
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public static bool operator ==(LR0ItemSetCollection lhs, LR0ItemSetCollection rhs)
     {
@@ -47,7 +55,9 @@ namespace ToyParserGenerator.Grammar
       return !IsEqual(lhs, rhs);
     }
 
-    // Static Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Static Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     private static bool IsEqual(LR0ItemSetCollection lhs, LR0ItemSetCollection rhs)
     {

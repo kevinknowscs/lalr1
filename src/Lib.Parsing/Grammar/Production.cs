@@ -6,7 +6,9 @@ namespace ToyParserGenerator.Grammar
 {
   public class Production
   {
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public Production(Grammar aGrammar, NonTerminal aLValue, params BnfTerm[] aBnfTerms)
     {
@@ -14,11 +16,13 @@ namespace ToyParserGenerator.Grammar
       LValue = aLValue;
       BnfTerms = new List<BnfTerm>();
 
-      foreach (BnfTerm bt in aBnfTerms)
+      foreach (var bt in aBnfTerms)
         BnfTerms.Add(bt);
     }
 
-    // Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public Grammar Grammar { get; }
 
@@ -34,6 +38,7 @@ namespace ToyParserGenerator.Grammar
         _lValue.Productions.Add(this);
       }
     }
+
     private NonTerminal _lValue = null;
 
     public List<BnfTerm> BnfTerms
@@ -42,19 +47,23 @@ namespace ToyParserGenerator.Grammar
       set;
     }
 
-    // Methods
-
-    public override int GetHashCode()
-    {
-      return LValue.GetHashCode();
-    }
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public override bool Equals(object obj)
     {
       return IsEqual(this, obj as Production);
     }
 
+    public override int GetHashCode()
+    {
+      return LValue.GetHashCode();
+    }
+
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Operator Overloads
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public static bool operator ==(Production lhs, Production rhs)
     {
@@ -66,7 +75,9 @@ namespace ToyParserGenerator.Grammar
       return !IsEqual(lhs, rhs);
     }
 
-    // Static Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Private Static Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     private static bool IsEqual(Production lhs, Production rhs)
     {
