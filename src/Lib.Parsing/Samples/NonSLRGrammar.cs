@@ -1,11 +1,6 @@
-﻿#region using
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToyParserGenerator.Grammar;
+﻿// ReSharper disable InconsistentNaming
 
-#endregion
+using ToyParserGenerator.Grammar;
 
 namespace ToyParserGenerator.Samples
 {
@@ -55,25 +50,18 @@ namespace ToyParserGenerator.Samples
     // consistent with typical BNF notation and Yacc/Bison conventions, which allows us to more
     // easily distinguish terminals from non-terminals.
 
-    // ReSharper disable once InconsistentNaming
     public NonTerminal sprime { get; } = null;
 
-    // ReSharper disable once InconsistentNaming
     public NonTerminal s { get; } = null;
 
-    // ReSharper disable once InconsistentNaming
     public NonTerminal l { get; } = null;
 
-    // ReSharper disable once InconsistentNaming
     public NonTerminal r { get; } = null;
 
-    // ReSharper disable once InconsistentNaming
     public Terminal EQUAL { get; } = null;
 
-    // ReSharper disable once InconsistentNaming
     public Terminal STAR { get; } = null;
 
-    // ReSharper disable once InconsistentNaming
     public Terminal ID { get; } = null;
   }
 }
