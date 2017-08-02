@@ -1,17 +1,15 @@
-﻿#region using
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ToyParserGenerator.Grammar;
 
-#endregion
+using ToyParserGenerator.Grammar;
 
 namespace ToyParserGenerator.Parser
 {
   public class ParserData
   {
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public ParserData(Grammar.Grammar grammar)
     {
@@ -19,21 +17,17 @@ namespace ToyParserGenerator.Parser
       StateTable = new HashSet<ParserState>();
     }
 
-    // Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Grammar.Grammar Grammar
-    {
-      get;
-      private set;
-    }
+    public Grammar.Grammar Grammar { get; }
 
-    public HashSet<ParserState> StateTable
-    {
-      get;
-      private set;
-    }
+    public HashSet<ParserState> StateTable { get; }
 
-    // Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public void Build()
     {
@@ -42,20 +36,20 @@ namespace ToyParserGenerator.Parser
       var cc = Grammar.GetCanonicalCollection();
       Grammar.BuildFirstAndFollowSets();
 
-      foreach (LR0ItemSet itemSet in cc)
+      foreach (var itemSet in cc)
       {
         var state = new ParserState(itemSet);
         states.Add(itemSet, state);
         StateTable.Add(state);
       }
 
-      foreach (LR0ItemSet itemSet in cc)
+      foreach (var itemSet in cc)
       {
         var targetState = states[itemSet];
 
-        foreach (Terminal t in Grammar.Terminals)
+        foreach (var t in Grammar.Terminals)
         {
-          foreach (LR0Item item in itemSet)
+          foreach (var item in itemSet)
           {
             if (item.NextTerm != t)
               continue;
@@ -71,7 +65,7 @@ namespace ToyParserGenerator.Parser
           }
         }
 
-        foreach (NonTerminal nt in Grammar.NonTerminals)
+        foreach (var nt in Grammar.NonTerminals)
         {
           var gotoSet = itemSet.GetGotoSet(nt);
           if (gotoSet == null || gotoSet.Count == 0)
@@ -83,12 +77,12 @@ namespace ToyParserGenerator.Parser
           targetState.Gotos[nt] = states[gotoSet];
         }
 
-        foreach (LR0Item item in itemSet)
+        foreach (var item in itemSet)
         {
           if (item.NextTerm != null)
             continue;
 
-          foreach (Terminal followTerm in item.Production.LValue.Follow)
+          foreach (var followTerm in item.Production.LValue.Follow)
           {
             targetState.Actions[followTerm] = ParserAction.CreateReduce(item.Production);
           }
@@ -98,13 +92,7 @@ namespace ToyParserGenerator.Parser
 
     public ParserState FindState(LR0ItemSet associatedItemSet)
     {
-      foreach (ParserState ps in StateTable)
-      {
-        if (ps.AssociatedItemSet == associatedItemSet)
-          return ps;
-      }
-
-      return null;
+      return StateTable.FirstOrDefault(ps => ps.AssociatedItemSet == associatedItemSet);
     }
   }
 }

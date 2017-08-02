@@ -1,17 +1,14 @@
-﻿#region using
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToyParserGenerator.Grammar;
+﻿using System.Collections.Generic;
 
-#endregion
+using ToyParserGenerator.Grammar;
 
 namespace ToyParserGenerator.Parser
 {
   public class ParserState
   {
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public ParserState(LR0ItemSet associatedItemSet)
     {
@@ -20,24 +17,14 @@ namespace ToyParserGenerator.Parser
       Gotos = new Dictionary<NonTerminal, ParserState>();
     }
 
-    // Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public LR0ItemSet AssociatedItemSet
-    {
-      get;
-      private set;
-    }
+    public LR0ItemSet AssociatedItemSet { get; private set; }
 
-    public Dictionary<Terminal, ParserAction> Actions
-    {
-      get;
-      private set;
-    }
+    public Dictionary<Terminal, ParserAction> Actions { get; private set; }
 
-    public Dictionary<NonTerminal, ParserState> Gotos
-    {
-      get;
-      private set;
-    }
+    public Dictionary<NonTerminal, ParserState> Gotos { get; private set; }
   }
 }

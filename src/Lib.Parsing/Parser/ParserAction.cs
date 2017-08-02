@@ -1,24 +1,31 @@
-﻿#region using
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToyParserGenerator.Grammar;
-
-#endregion
+﻿using ToyParserGenerator.Grammar;
 
 namespace ToyParserGenerator.Parser
 {
   public class ParserAction
   {
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Private Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     private ParserAction(ParserActionTypes actionType)
     {
       ActionType = actionType;
     }
 
-    // Static Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+
+    public ParserActionTypes ActionType { get; set; }
+
+    public ParserState NextState { get; set; }
+
+    public Production ReduceProduction { get; set; }
+
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Static Methods
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public static ParserAction CreateShift(ParserState nextState)
     {
@@ -33,26 +40,6 @@ namespace ToyParserGenerator.Parser
     public static ParserAction CreateAccept()
     {
       return null;
-    }
-
-    // Public Properties
-
-    public ParserActionTypes ActionType
-    {
-      get;
-      set;
-    }
-
-    public ParserState NextState
-    {
-      get;
-      set;
-    }
-
-    public Production ReduceProduction
-    {
-      get;
-      set;
     }
   }
 }
