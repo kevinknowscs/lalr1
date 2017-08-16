@@ -1,115 +1,68 @@
-﻿#region using
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ToyParserGenerator.Grammar;
+﻿// ReSharper disable InconsistentNaming
 
-#endregion
+using ToyParserGenerator.Grammar;
 
 namespace ToyParserGenerator.Samples
 {
   public class NonSLRGrammar : Grammar.Grammar
   {
-    // Definitions
-
-    private readonly NonTerminal _sprime = null;
-    private readonly NonTerminal _s = null;
-    private readonly NonTerminal _l = null;
-    private readonly NonTerminal _r = null;
-
-    private readonly Terminal _EQUAL = null;
-    private readonly Terminal _STAR = null;
-    private readonly Terminal _ID = null;
-
+    // ////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
     public NonSLRGrammar()
     {
-      _sprime = new NonTerminal(this, "sprime");
-      _s = new NonTerminal(this, "s");
-      _l = new NonTerminal(this, "l");
-      _r = new NonTerminal(this, "r");
-      _EQUAL = new Terminal(this, "EQUAL");
-      _STAR = new Terminal(this, "STAR");
-      _ID = new Terminal(this, "ID");
+      sprime = new NonTerminal(this, "sprime");
+      s = new NonTerminal(this, "s");
+      l = new NonTerminal(this, "l");
+      r = new NonTerminal(this, "r");
 
-      NonTerminals.Add(_s);
-      NonTerminals.Add(_l);
-      NonTerminals.Add(_r);
+      EQUAL = new Terminal(this, "EQUAL");
+      STAR = new Terminal(this, "STAR");
+      ID = new Terminal(this, "ID");
+
+      NonTerminals.Add(s);
+      NonTerminals.Add(l);
+      NonTerminals.Add(r);
 
       Terminals.Add(EQUAL);
       Terminals.Add(STAR);
       Terminals.Add(ID);
 
-      Production root;
-      Productions.Add(root = new Production(this, sprime, s, EndOfInput)); // s' -> s $
-      Productions.Add(new Production(this, s, l, EQUAL, r));               // s  -> l = r
-      Productions.Add(new Production(this, s, r));                         // s  -> r
-      Productions.Add(new Production(this, l, STAR, r));                   // l  -> * r
-      Productions.Add(new Production(this, l, ID));                        // l  -> id
-      Productions.Add(new Production(this, r, l));                         // r  -> l
+      var root = new Production(this, sprime, s, EndOfInput);
+
+      Productions.Add(root);                                 // s' -> s $
+      Productions.Add(new Production(this, s, l, EQUAL, r)); // s  -> l = r
+      Productions.Add(new Production(this, s, r));           // s  -> r
+      Productions.Add(new Production(this, l, STAR, r));     // l  -> * r
+      Productions.Add(new Production(this, l, ID));          // l  -> id
+      Productions.Add(new Production(this, r, l));           // r  -> l
 
       this.AugmentedProduction = root;
     }
 
-    // Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // Public Properties
+    // ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public NonTerminal sprime
-    {
-      get
-      {
-        return _sprime;
-      }
-    }
+    // Yes, these are inconsistent naming conventions compared with ordinary C# code. However,
+    // since we are writing a grammar description, we favor a naming convention that is more
+    // consistent with typical BNF notation and Yacc/Bison conventions, which allows us to more
+    // easily distinguish terminals from non-terminals.
 
-    public NonTerminal s
-    {
-      get
-      {
-        return _s;
-      }
-    }
+    public NonTerminal sprime { get; } = null;
 
-    public NonTerminal l
-    {
-      get
-      {
-        return _l;
-      }
-    }
+    public NonTerminal s { get; } = null;
 
-    public NonTerminal r
-    {
-      get
-      {
-        return _r;
-      }
-    }
+    public NonTerminal l { get; } = null;
 
-    public Terminal EQUAL
-    {
-      get
-      {
-        return _EQUAL;
-      }
-    }
+    public NonTerminal r { get; } = null;
 
-    public Terminal STAR
-    {
-      get
-      {
-        return _STAR;
-      }
-    }
+    public Terminal EQUAL { get; } = null;
 
-    public Terminal ID
-    {
-      get
-      {
-        return _ID;
-      }
-    }
+    public Terminal STAR { get; } = null;
+
+    public Terminal ID { get; } = null;
   }
 }
 

@@ -42,11 +42,7 @@ namespace ToyParserGenerator.Grammar
 
     private NonTerminal _lValue = null;
 
-    public List<BnfTerm> BnfTerms
-    {
-      get;
-      private set;
-    }
+    public List<BnfTerm> BnfTerms { get; set; }
 
     // ////////////////////////////////////////////////////////////////////////////////////////////
     // Public Methods
