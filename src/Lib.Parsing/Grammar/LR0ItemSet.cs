@@ -78,7 +78,7 @@ namespace ToyParserGenerator.Grammar
           continue; // We already did this one
 
         // Add all the productions to the closure
-        foreach (var prod in nt.Productions)
+        foreach (var prod in nt. Productions)
         {
           if (results.Contains(prod, 0))
             continue;

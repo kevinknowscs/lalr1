@@ -32,10 +32,11 @@ namespace ToyParserGenerator.Grammar
       {
         return _lValue;
       }
-      set
+      private set
       {
         _lValue = value;
-        _lValue.Productions.Add(this);
+        // _lValue.Productions.Add(this);
+        _lValue.AddProduction(this);
       }
     }
 
@@ -44,7 +45,7 @@ namespace ToyParserGenerator.Grammar
     public List<BnfTerm> BnfTerms
     {
       get;
-      set;
+      private set;
     }
 
     // ////////////////////////////////////////////////////////////////////////////////////////////
