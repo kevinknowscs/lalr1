@@ -61,7 +61,7 @@ namespace ToyParserGenerator.Grammar
     {
       Console.Write($"{Production.LValue.Name} -> ");
 
-      int index = 0;
+      var index = 0;
 
       foreach (var term in Production.BnfTerms)
       {
